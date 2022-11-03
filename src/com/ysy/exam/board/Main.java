@@ -30,16 +30,29 @@ public class Main {
 
                 int id = articlesLastId + 1;
                 articlesLastId++;
-                System.out.println(id + "번 게시물이 등록되었습니다.");
+
+                Article article = new Article();
+                article.id = id;
+                article.title = title;
+                article.content = content;
+
+                System.out.println("생성된 게시물 객체: " + article );
+                System.out.println(article.id + "번 게시물이 등록되었습니다.");
             }
 
            else {
                 System.out.println("입력된 명령어 : " + cmd);
             }
         }
-
-
         sc.close();
+    }
+}
 
+class Article{
+    int id;
+    String title;
+    String content;
+    public void article(){
+        System.out.println();
     }
 }
