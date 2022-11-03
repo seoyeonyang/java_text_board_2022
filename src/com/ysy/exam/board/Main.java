@@ -10,6 +10,8 @@ public class Main {
         System.out.println("== 게시판 v 0.1 =");
         System.out.println("== 프로그램 시작 =");
 
+        int articlesLastId = 0;
+
         while (true) {
             System.out.printf("명령)");
             String cmd = sc.nextLine();
@@ -26,7 +28,8 @@ public class Main {
                 System.out.printf("내용: ");
                 String content = sc.nextLine();
 
-                int id = 1;
+                int id = articlesLastId + 1;
+                articlesLastId++;
                 System.out.println(id + "번 게시물이 등록되었습니다.");
             }
 
