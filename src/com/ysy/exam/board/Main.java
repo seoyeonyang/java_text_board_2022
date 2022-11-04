@@ -1,5 +1,6 @@
 package com.ysy.exam.board;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -12,6 +13,10 @@ public class Main {
 
         int articlesLastId = 0;
         Article lastArticle = null;
+        ArrayList<Article> articleList = new ArrayList<Article>();
+
+        createTestData(articleList);
+
 
         while (true) {
             System.out.printf("명령)");
@@ -44,10 +49,23 @@ public class Main {
                     System.out.println("게시글이 존재하지 않습니다");
                     continue;
                 }
-                
+
                 System.out.println("== 게시물 상세보기 ==");
                 Article article = lastArticle;
                 System.out.println(article);
+
+            } else if (cmd.equals("/user/article/list")) {
+                System.out.println("== 게시글 목록 ==");
+                System.out.println("===============");
+                System.out.println("== 번호 / 제목 / 내용 ==");
+                System.out.println("===============");
+
+                for (int i = articleList.size(); i >=0; i --){
+
+                }
+
+
+
 
             } else {
                 System.out.println("입력된 명령어 : " + cmd);
@@ -55,6 +73,13 @@ public class Main {
         }
         System.out.println("== 프로그램 종료 ==");
         sc.close();
+    }
+
+    private static void createTestData(ArrayList<Article> articleList) {
+        articleList.add(new Article(1, "제목1", "내용1"));
+        articleList.add(new Article(2, "제목2", "내용2"));
+        articleList.add(new Article(3, "제목3", "내용3"));
+        articleList.add(new Article(4, "제목4", "내용4"));
     }
 }
 
