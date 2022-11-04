@@ -13,10 +13,15 @@ public class Main {
 
         int articlesLastId = 0;
         Article lastArticle = null;
+
+
         ArrayList<Article> articleList = new ArrayList<Article>();
 
         createTestData(articleList);
 
+        if ( articleList.size() > 0){
+            articlesLastId = articleList.get(articleList.size()-1).id;
+        }
 
         while (true) {
             System.out.printf("명령)");
