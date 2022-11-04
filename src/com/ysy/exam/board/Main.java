@@ -45,6 +45,8 @@ public class Main {
                 Article article = new Article(id, title, content);
                 lastArticle = article;
 
+                articleList.add(article);
+
                 System.out.println("생성된 게시물 객체: " + article );
                 System.out.println(article.id + "번 게시물이 등록되었습니다.");
 
