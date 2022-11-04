@@ -60,7 +60,9 @@ public class Main {
                 System.out.println("== 번호 / 제목 / 내용 ==");
                 System.out.println("===============");
 
-                for (int i = articleList.size(); i >=0; i --){
+                for (int i = articleList.size()-1; i >=0; i --){
+                    Article article = articleList.get(i);
+                    System.out.println("번호 - "+ article.id + "제목 - "+ article.title+ "내용 - "+ article.content);
 
                 }
 
@@ -75,7 +77,7 @@ public class Main {
         sc.close();
     }
 
-    private static void createTestData(ArrayList<Article> articleList) {
+    static void createTestData(ArrayList<Article> articleList) {
         articleList.add(new Article(1, "제목1", "내용1"));
         articleList.add(new Article(2, "제목2", "내용2"));
         articleList.add(new Article(3, "제목3", "내용3"));
