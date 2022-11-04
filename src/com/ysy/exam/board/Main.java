@@ -12,7 +12,6 @@ public class Main {
         System.out.println("== 프로그램 시작 =");
 
         int articlesLastId = 0;
-        Article lastArticle = null;
 
 
         ArrayList<Article> articleList = new ArrayList<Article>();
@@ -43,7 +42,6 @@ public class Main {
                 articlesLastId++;
 
                 Article article = new Article(id, title, content);
-                lastArticle = article;
 
                 articleList.add(article);
 
@@ -52,13 +50,14 @@ public class Main {
 
             } else if (cmd.equals("/user/article/detail")) {
 
-                if ( lastArticle == null){
+                if ( articleList.isEmpty()){
                     System.out.println("게시글이 존재하지 않습니다");
                     continue;
                 }
 
+                Article article = articleList.get(articleList.size() -1);
+
                 System.out.println("== 게시물 상세보기 ==");
-                Article article = lastArticle;
                 System.out.println(article);
 
             } else if (cmd.equals("/user/article/list")) {
@@ -72,9 +71,6 @@ public class Main {
                     System.out.println("번호 - "+ article.id + "제목 - "+ article.title+ "내용 - "+ article.content);
 
                 }
-
-
-
 
             } else {
                 System.out.println("입력된 명령어 : " + cmd);
