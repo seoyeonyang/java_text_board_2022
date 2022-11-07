@@ -119,10 +119,10 @@ public class Main {
     }
 
     static void createTestData(ArrayList<Article> articleList) {
-        articleList.add(new Article(1, "제목1", "내용1"));
-        articleList.add(new Article(2, "제목2", "내용2"));
-        articleList.add(new Article(3, "제목3", "내용3"));
-        articleList.add(new Article(4, "제목4", "내용4"));
+        for(int i = 1; i<100; i++){
+            int id = i+1;
+            articleList.add(new Article(id , "제목"+id, "내용"+id));
+        }
     }
 }
 
