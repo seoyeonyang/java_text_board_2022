@@ -1,9 +1,6 @@
 package com.ysy.exam.board;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,8 +17,8 @@ public class Main {
 
         createTestData(articleList);
 
-        if ( articleList.size() > 0){
-            articlesLastId = articleList.get(articleList.size()-1).id;
+        if (articleList.size() > 0) {
+            articlesLastId = articleList.get(articleList.size() - 1).id;
         }
 
         while (true) {
@@ -49,22 +46,34 @@ public class Main {
 
                 articleList.add(article);
 
-                System.out.println("생성된 게시물 객체: " + article );
+                System.out.println("생성된 게시물 객체: " + article);
                 System.out.println(article.id + "번 게시물이 등록되었습니다.");
 
             } else if (rq.getUrlPath().equals("/user/article/detail")) {
 
-                int id = Integer.parseInt(params.get("id"));
-                System.out.println(id);
+                if (params.containsKey("id") == false) {
+                    System.out.println("id값을 입력해주세요");
+                    continue;
+                }
 
-                if ( articleList.isEmpty()){
+
+                if (articleList.isEmpty()) {
                     System.out.println("게시글이 존재하지 않습니다");
                     continue;
                 }
 
-                Article article = articleList.get(id-1);
+                int id = 0;
 
-                if( id > articleList.size()){
+                try {
+                    id = Integer.parseInt(params.get("id"));
+                } catch (NumberFormatException e) {
+                    System.out.println("id를 정수형태로 입력 해 주세요");
+                    continue;
+                }
+
+                Article article = articleList.get(id - 1);
+
+                if (id > articleList.size()) {
                     System.out.println("게시물이 존재하지 않습니다");
                     continue;
                 }
@@ -72,18 +81,29 @@ public class Main {
                 System.out.println("== 게시물 상세보기 ==");
                 System.out.println(article);
 
-            } else if (cmd.equals("/user/article/list")) {
+            } else if (rq.getUrlPath().equals("/user/article/list")) {
                 System.out.println("== 게시글 목록 ==");
                 System.out.println("===============");
                 System.out.println("== 번호 / 제목 / 내용 ==");
                 System.out.println("===============");
 
-                for (int i = articleList.size()-1; i >=0; i --){
-                    Article article = articleList.get(i);
-                    System.out.println("번호 - "+ article.id + "제목 - "+ article.title+ "내용 - "+ article.content);
+                boolean orderByIdDesc = true;
 
+
+                if (params.containsKey("orderBy") && params.get("orderBy").equals("idAsc")) {
+                    orderByIdDesc = false;
                 }
 
+                if (orderByIdDesc) {
+                    for (int i = articleList.size() - 1; i >= 0; i--) {
+                        Article article = articleList.get(i);
+                        System.out.println("번호 - " + article.id + "제목 - " + article.title + "내용 - " + article.content);
+                    }
+                } else {
+                    for (Article article : articleList) {
+                        System.out.println("번호 - " + article.id + "제목 - " + article.title + "내용 - " + article.content);
+                    }
+                }
             } else {
                 System.out.println("입력된 명령어 : " + cmd);
             }
@@ -99,8 +119,6 @@ public class Main {
         articleList.add(new Article(4, "제목4", "내용4"));
     }
 }
-
-
 
 class Rq {
     String url;
@@ -143,19 +161,19 @@ class Util {
     }
 }
 
-class Article{
+class Article {
     int id;
     String title;
     String content;
 
-    Article(int id, String title, String content){
+    Article(int id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("글 번호 - %d, 글 제목 - %s, 글 내용 - %s", id, title, content);
     }
 }
