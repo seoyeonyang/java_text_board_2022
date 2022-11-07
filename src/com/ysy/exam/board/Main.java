@@ -1,6 +1,8 @@
 package com.ysy.exam.board;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -26,7 +28,9 @@ public class Main {
             System.out.printf("명령)");
             String cmd = sc.nextLine();
 
-            if (cmd.equals("exit")) {
+            Rq rq = new Rq(cmd);
+
+            if (rq.getUrlPath().equals("exit")) {
                 System.out.println("==프로그램 종료==");
                 break;
             } else if (cmd.equals("/user/article/write")) {
@@ -88,6 +92,52 @@ public class Main {
     }
 }
 
+class Rq{
+    private String url;
+    private String urlPath;
+    private Map<String, String> params;
+
+    Rq(String url){
+        this.url = url;
+        urlPath = Util.getUrlPathFromUrl(this.url);
+        params = Util.getParamsFromUrl(this.url);
+    }
+
+    public Map<String, String> getParams(){
+        return params;
+    }
+
+    public String getUrlPath(){
+        return urlPath;
+    }
+}
+
+class Util {
+    static Map<String, String> getParamsFromUrl (String url) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        String[] urlBits = url.split("\\?", 2);
+
+        if (urlBits.length == 1) {
+            return params;
+        }
+
+        String queryStr = urlBits[1];
+        for (String bit : queryStr.split("&")) {
+            String[] bits = bit.split("=", 2);
+            if (bits.length == 1) {
+                continue;
+            }
+            params.put(bits[0], bits[1]);
+        }
+        return params;
+    }
+
+    public static String getUrlPathFromUrl(String url) {
+        return url.split("\\?", 2)[0];
+    }
+}
+
 class Article{
     int id;
     String title;
@@ -97,8 +147,6 @@ class Article{
         this.id = id;
         this.title = title;
         this.content = content;
-
-
     }
 
     @Override
