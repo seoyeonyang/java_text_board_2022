@@ -54,12 +54,19 @@ public class Main {
 
             } else if (cmd.equals("/user/article/detail")) {
 
+                int id = Integer.parseInt(rq.getParams().get("id"));
+
                 if ( articleList.isEmpty()){
                     System.out.println("게시글이 존재하지 않습니다");
                     continue;
                 }
 
-                Article article = articleList.get(articleList.size() -1);
+                Article article = articleList.get(id-1);
+
+                if( id > articleList.size()){
+                    System.out.println("게시물이 존재하지 않습니다");
+                    continue;
+                }
 
                 System.out.println("== 게시물 상세보기 ==");
                 System.out.println(article);
