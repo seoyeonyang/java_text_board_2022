@@ -87,11 +87,17 @@ public class Main {
                 System.out.println("== 번호 / 제목 / 내용 ==");
                 System.out.println("===============");
 
+                List<Article> sortedArticles = articleList;
+
                 boolean orderByIdDesc = true;
 
 
                 if (params.containsKey("orderBy") && params.get("orderBy").equals("idAsc")) {
                     orderByIdDesc = false;
+                }
+
+                if(orderByIdDesc){
+                    sortedArticles = Util.reverseList(sortedArticles);
                 }
 
                 if (orderByIdDesc) {
@@ -137,6 +143,16 @@ class Rq {
 }
 
 class Util {
+
+    public static<T> List<T> reverseList(List<T> list){
+        List<T> reverse = new ArrayList<T>(list.size());
+
+        for(int i = list.size()-1; i>=0; i--){
+            reverse.add(list.get(i));
+        }
+        return reverse;
+    }
+
     static Map<String, String> getParamsFromUrl(String url) {
         Map<String, String> params = new HashMap<String, String>();
         String[] urlBits = url.split("\\?", 2);
