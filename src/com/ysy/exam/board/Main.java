@@ -45,39 +45,12 @@ public class Main {
 
             } else if (rq.getUrlPath().equals("/usr/article/detail")) {
 
-                if (params.containsKey("id") == false) {
-                    System.out.println("id를 입력해주세요.");
-                    continue;
-                }
+                actionUsrArticleDetail(rq, articles);
 
-                if (articles.isEmpty()) {
-                    System.out.println("게시물이 존재하지 않습니다.");
-                    continue;
-                }
 
-                int id = 0;
-
-                try {
-                    id = Integer.parseInt(params.get("id"));
-                } catch (NumberFormatException e) {
-                    System.out.println("id를 정수형태로 입력해주세요.");
-                    continue;
-                }
-
-                Article article = articles.get(id - 1);
-
-                if (id > articles.size()) {
-                    System.out.println("게시물이 존재하지 않습니다.");
-                    continue;
-                }
-
-                System.out.println("- 게시물 상세보기 -");
-                System.out.printf("번호 : %d\n", article.id);
-                System.out.printf("제목 : %s\n", article.title);
-                System.out.printf("내용 : %s\n", article.body);
 
             } else if (rq.getUrlPath().equals("/usr/article/write")) {
-                actinoUsrArticleWrite(rq, sc, articles, articleLastId);
+                actionUsrArticleWrite(rq, sc, articles, articleLastId);
                 articleLastId++;
             }
 
@@ -88,7 +61,43 @@ public class Main {
         sc.close();
     }
 
-    private static void actinoUsrArticleWrite(Rq rq, Scanner sc, List<Article> articles, int articleLastId) {
+    private static void actionUsrArticleDetail(Rq rq, List<Article> articles) {
+        Map<String, String> params = rq.getParams();
+
+        if (params.containsKey("id") == false) {
+            System.out.println("id를 입력해주세요.");
+            return;
+        }
+
+        if (articles.isEmpty()) {
+            System.out.println("게시물이 존재하지 않습니다.");
+            return;
+        }
+
+        int id = 0;
+
+        try {
+            id = Integer.parseInt(params.get("id"));
+        } catch (NumberFormatException e) {
+            System.out.println("id를 정수형태로 입력해주세요.");
+            return;
+        }
+
+        Article article = articles.get(id - 1);
+
+        if (id > articles.size()) {
+            System.out.println("게시물이 존재하지 않습니다.");
+            return;
+        }
+
+        System.out.println("- 게시물 상세보기 -");
+        System.out.printf("번호 : %d\n", article.id);
+        System.out.printf("제목 : %s\n", article.title);
+        System.out.printf("내용 : %s\n", article.body);
+
+    }
+
+    private static void actionUsrArticleWrite(Rq rq, Scanner sc, List<Article> articles, int articleLastId) {
         System.out.println("- 게시물 등록 - ");
         System.out.printf("제목: ");
         String title = sc.nextLine();
