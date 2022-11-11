@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        int articleId = 0;
+        int articleLastId = 0;
 
         System.out.println("== 게시판 v 0.1 ==");
         System.out.println("== 프로그램 시작 ==");
@@ -25,9 +25,15 @@ public class Main {
                 System.out.print("내용 : ");
                 String content = sc.nextLine();
 
-                int id = articleId + 1;
+
+                int id = articleLastId + 1;
                 System.out.println(id + "번째 게시글이 추가되었습니다.");
-                articleId++;
+                articleLastId++;
+
+                Article article = new Article(id, title, content);
+
+                System.out.println(article);
+
             } else {
                 System.out.println("입력된 명령어) " + cmd);
             }
@@ -35,3 +41,20 @@ public class Main {
         System.out.println("== 프로그램 종료 ==");
     }
 }
+
+class Article{
+    int id;
+    String title;
+    String content;
+
+    Article(int id, String title, String content){
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
+
+     public String toString(){
+        return String.format("아이디 : %d, 제목 : %s, 내용 : %s", id, title, content);
+    }
+}
+
