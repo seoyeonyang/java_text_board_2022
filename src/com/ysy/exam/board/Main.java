@@ -2,10 +2,14 @@ package com.ysy.exam.board;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Map<String, String> params = new HashMap<String, String>();
 
         ArrayList<Article> articles = new ArrayList<Article>();
         createTestArticles(articles);
@@ -16,7 +20,7 @@ public class Main {
         }
 
         Scanner sc = new Scanner(System.in);
-        Article lastArticle = null;
+        Article lastArticle= null;
 
         System.out.println("== 게시판 v 0.1 ==");
         System.out.println("== 프로그램 시작 ==");
@@ -25,10 +29,12 @@ public class Main {
             System.out.print("명령)");
             String cmd = sc.nextLine();
 
-            if (cmd.equals("exit")) {
+            Rq rq = new Rq(cmd);
+
+            if (rq.getUrlPath().equals("exit")) {
                 break;
 
-            } else if (cmd.equals("/usr/article/list")) {
+            } else if (rq.getUrlPath().equals("/usr/article/list")) {
                 System.out.println("== 게시글 목록 ==");
 
                 if (articles.size() < 0){
@@ -40,7 +46,7 @@ public class Main {
                 }
 
 
-            } else if (cmd.equals("/usr/article/detail")) {
+            } else if (rq.getUrlPath().equals("/usr/article/detail")) {
 
                 if (articles == null) {
                     System.out.println("입력된 게시글이 없습니다.");
@@ -103,3 +109,52 @@ class Article {
     }
 }
 
+class Rq{
+
+    private String url;
+    private String urlPath;
+    private Map<String, String> params;
+
+
+    Rq(String url){
+        this.url = url;
+        urlPath = Util.getUrlPathFromUrl(this.url);
+        params = Util.getParamsFromUrl(this.url);
+
+    }
+
+    public Map<String,String> getParams(){
+        return params;
+    }
+
+    public String getUrlPath(){
+        return urlPath;
+    }
+}
+
+
+class Util {
+    static Map<String, String> getParamsFromUrl(String url) {
+        Map<String, String> params = new HashMap<String, String>();
+        String[] urlBits = url.split("\\?", 2);
+
+        if (urlBits.length == 1) {
+            return params;
+        }
+
+        String queryStr = urlBits[1];
+        for (String bit : queryStr.split("&")) {
+            String[] bits = bit.split("=", 2);
+            if (bits.length == 1) {
+                continue;
+            }
+            params.put(bits[0], bits[1]);
+        }
+
+        return params;
+    }
+
+    static String getUrlPathFromUrl(String url) {
+        return url.split("\\?", 2)[0];
+    }
+}
