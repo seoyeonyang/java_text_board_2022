@@ -8,6 +8,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         int articleLastId = 0;
+        Article lastArticle = null;
 
         System.out.println("== 게시판 v 0.1 ==");
         System.out.println("== 프로그램 시작 ==");
@@ -18,19 +19,32 @@ public class Main {
 
             if (cmd.equals("exit")) {
                 break;
+
+            } else if (cmd.equals("/usr/article/detail")) {
+                Article article = lastArticle;
+                if (lastArticle == null){
+                    System.out.println("입력된 게시글이 없습니다.");
+                    continue;
+                }
+
+                System.out.println("== 게시글 상세 보기 ==");
+                System.out.println(lastArticle);
+
+
             } else if (cmd.equals("/usr/article/write")) {
+
                 System.out.println("== 게시글 작성 ==");
                 System.out.print("제목 : ");
                 String title = sc.nextLine();
                 System.out.print("내용 : ");
                 String content = sc.nextLine();
 
-
                 int id = articleLastId + 1;
                 System.out.println(id + "번째 게시글이 추가되었습니다.");
                 articleLastId++;
 
                 Article article = new Article(id, title, content);
+                lastArticle = article;
 
                 System.out.println(article);
 
@@ -39,6 +53,7 @@ public class Main {
             }
         }
         System.out.println("== 프로그램 종료 ==");
+        sc.close();
     }
 }
 
